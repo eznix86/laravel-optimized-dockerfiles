@@ -1,4 +1,4 @@
-FROM node:20-alpine AS frontend
+FROM docker.io/library/node:20-alpine AS frontend
 
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -82,7 +82,8 @@ COPY docker/Procfile /etc/Procfile
 
 COPY --from=build --chown=www-data:www-data /app /var/www/html
 
-USER www-data
+# USER www-data
+USER 82
 
 EXPOSE 8080
 

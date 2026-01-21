@@ -21,7 +21,7 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-FROM node:20-alpine AS frontend
+FROM docker.io/library/node:20-alpine AS frontend
 
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -35,7 +35,7 @@ FROM php-base AS build
 ENV APP_ENV=production \
     APP_DEBUG=false
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=docker.io/library/composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
 RUN composer install \
@@ -66,7 +66,8 @@ COPY --chmod=644 docker/Caddyfile /etc/caddy/Caddyfile
 
 COPY --chmod=755 docker/entrypoint.sh /entrypoint.sh
 
-USER www-data
+# USER www-data
+USER 82
 
 ENV APP_ENV=production \
     APP_DEBUG=false \
